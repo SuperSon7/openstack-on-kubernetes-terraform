@@ -1,0 +1,58 @@
+name: Static checks
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: static-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  static:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      CI_REPORT_DIR: /tmp/osh-ci-reports
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install linters
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          cd "$RUNNER_TEMP/bin"
+          curl -fsSL --retry 3 https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz -o actionlint.tar.gz
+          echo '023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757  actionlint.tar.gz' | sha256sum -c -
+          tar -xzf actionlint.tar.gz actionlint
+          curl -fsSL --retry 3 https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz -o gitleaks.tar.gz
+          echo '9991e0b2903da4c8f6122b5c3186448b927a5da4deef1fe45271c3793f4ee29c  gitleaks.tar.gz' | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+          curl -fsSL --retry 3 https://github.com/koalaman/shellcheck/releases/download/v0.9.0/shellcheck-v0.9.0.linux.x86_64.tar.xz -o shellcheck.tar.xz
+          echo '700324c6dd0ebea0117591c6cc9d7350d9c7c5c287acbad7630fa17b1d4d9e2f  shellcheck.tar.xz' | sha256sum -c -
+          tar -xJf shellcheck.tar.xz --strip-components=1 shellcheck-v0.9.0/shellcheck
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+      - name: Check Actions syntax and CI helper tests
+        run: |
+          actionlint
+          python3 -m unittest discover -s tests -p 'test_static_ci.py' -v
+      - name: Check shell scripts and sensitive filenames
+        run: python3 ci/static.py
+      - name: Scan secrets
+        if: ${{ !cancelled() }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/scan"
+          git ls-files -z | tar --null -T - -cf - | tar -xf - -C "$RUNNER_TEMP/scan"
+          gitleaks dir "$RUNNER_TEMP/scan" --redact --no-banner
+          gitleaks git . --redact --no-banner
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: static-reports
+          path: /tmp/osh-ci-reports/
+          if-no-files-found: ignore
+          retention-days: 7

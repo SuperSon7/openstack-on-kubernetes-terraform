@@ -1,0 +1,122 @@
+[
+  {
+    "code": 2016,
+    "column": 42,
+    "file": "osh/cirros-boot.sh",
+    "level": "info",
+    "line": 59,
+    "message": "Expressions don't expand in single quotes, use double quotes for that."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 140,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 61,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 140,
+    "message": "Double quote to prevent globbing and word splitting."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 154,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 59,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 154,
+    "message": "Double quote to prevent globbing and word splitting."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 159,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 66,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 159,
+    "message": "Double quote to prevent globbing and word splitting."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 165,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 62,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 165,
+    "message": "Double quote to prevent globbing and word splitting."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 171,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 62,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 171,
+    "message": "Double quote to prevent globbing and word splitting."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 189,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 57,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 189,
+    "message": "Double quote to prevent globbing and word splitting."
+  },
+  {
+    "code": 2046,
+    "column": 3,
+    "file": "osh/deploy.sh",
+    "level": "warning",
+    "line": 229,
+    "message": "Quote this to prevent word splitting."
+  },
+  {
+    "code": 2086,
+    "column": 60,
+    "file": "osh/deploy.sh",
+    "level": "info",
+    "line": 229,
+    "message": "Double quote to prevent globbing and word splitting."
+  }
+]
